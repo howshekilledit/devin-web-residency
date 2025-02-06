@@ -1,0 +1,66 @@
+<!DOCTYP HTML>
+<html>
+  <head>
+    <title>My First Web Page</title>
+	<style>
+	#links{position: fixed; top: 20; left: 30; color: white; font-size: 24px; padding: 10px; z-index: 1000;}
+	#myVideo{position: fixed: top: 0; left: 0; z-index:0;}
+		</style>
+		
+
+  </head>
+  <body>
+    
+
+	<div id="myVideo"></div>
+	<div id = "links"></div>
+
+  <script src="https://player.vimeo.com/api/player.js"></script>
+
+	<script>
+	var linkHouse = document.getElementById('links');
+	var links = [
+		{
+			text: 'Google',
+			url: 'https://www.google.com',
+			in_time: 3,
+			out_time: 5
+		},
+		{
+			text: 'Web Archive',
+			url: 'https://web.archive.org',
+			in_time: 10,
+			out_time: 15
+		},
+		{
+			text: 'Link 3',
+			url: 'https://www.google.com',
+			in_time: 20,
+			out_time: 25
+		}
+	];
+	
+	 var options = {
+    		url: "https://player.vimeo.com/video/76979871?h=8272103f6e",
+    		width: 800
+  	};
+
+  	var videoPlayer = new Vimeo.Player('myVideo', options);
+
+  	videoPlayer.on('play', function() {
+  	  console.log('Played the video');
+		
+ 	 });
+	 // link events to reaching timecod ein video
+	 videoPlayer.on('timeupdate', function(data) {
+		 //console.log(data.seconds);
+		for(let link of links){
+			if(data.seconds >= link.in_time && data.seconds < link.out_time){
+				linkHouse.innerHTML = `<a href="${link.url}"> ${link.text} </a>`;
+				console.log(link.text);
+			}
+		}	
+	 }); 
+	</script>
+  </body>
+</html>
